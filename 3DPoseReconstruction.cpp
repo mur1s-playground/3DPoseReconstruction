@@ -148,6 +148,7 @@ int main() {
             if (foot_r_norm > foot_len) foot_len = foot_r_norm;
         }
     }
+    /*
     printf("head_len: %f\n", head_len);
     printf("thorax_len: %f\n", thorax_len);
     printf("spine_len: %f\n", spine_len);
@@ -158,19 +159,31 @@ int main() {
     printf("leg_up_len: %f\n", leg_up_len);
     printf("leg_lo_len: %f\n", leg_lo_len);
     printf("foot_len: %f\n", foot_len);
-
-    struct armature a;
-    armature_base_init(&a, head_len, spine_len, thorax_len, shoulder_radius, arm_up_len, arm_lo_len, spine_radius, leg_up_len, leg_lo_len, foot_len);
-
+    */
+    /*
     for (int i = 0; i < armature_bones.size(); i++) {
         struct bone* b_c = armature_bone_get_from_name(&a, armature_bones[i]);
-        printf("%s: %f %f %f, %f, %f, %f %f %f\n", armature_bones[i].c_str(), b_c->tail.x, b_c->tail.y, b_c->tail.z, b_c->ball_coords.x, b_c->ball_coords.y, b_c->head.x, b_c->head.y, b_c->head.z);
+        //printf("%s: %f %f %f, %f, %f, %f %f %f\n", armature_bones[i].c_str(), b_c->tail.x, b_c->tail.y, b_c->tail.z, b_c->ball_coords.x, b_c->ball_coords.y, b_c->head.x, b_c->head.y, b_c->head.z);
     }
     //armature_print(&a, 0.1);
+    */
 
-    printf("proj_450\n");
+    for (int i = 450; i < 1000; i++) {
+        if (keypoints[i].size() > 0) {
+            w_idx = i;
+            struct armature a;
+            armature_base_init(&a, head_len, spine_len, thorax_len, shoulder_radius, arm_up_len, arm_lo_len, spine_radius, leg_up_len, leg_lo_len, foot_len);
+
+            struct armature result;
+            armature_proj_from_keypoints(&result, keypoints[i]);
+
+            armature_fit(&a, &result);
+        }
+    }
+    //printf("proj_450\n");
+        /*
     struct armature a_proj_450;
-    printf("kp_s %i\n", keypoints[valid_i].size());
+   // printf("kp_s %i\n", keypoints[valid_i].size());
     armature_proj_from_keypoints(&a_proj_450, keypoints[valid_i]);
 
     for (int i = 0; i < armature_bones.size(); i++) {
@@ -183,4 +196,5 @@ int main() {
     printf("starting fit\n");
 
     armature_fit(&a, &a_proj_450);
+    */
 }

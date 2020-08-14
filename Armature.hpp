@@ -20,10 +20,15 @@ struct bone {
 	vector3f head;
 	vector3f tail;
 
-	vector2f ball_coords;
+	vector3f ball_coords;
 
 	vector2f ball_coords_theta_constr;
 	vector2f ball_coords_phi_constr;
+	vector2f ball_coords_psi_constr;
+};
+
+struct armature_genetic_toggle {
+	bool x, y, z;
 };
 
 enum armature_transformation_type {
@@ -40,7 +45,7 @@ struct armature_transformation {
 
 struct armature {
 	struct vector3f position;
-	struct vector2f	ball_coords;
+	struct vector3f	ball_coords;
 	float			scale;
 
 	struct bone		head;
@@ -74,9 +79,11 @@ extern map<string, vector<string>>	armature_bone_dependencies;
 
 void armature_base_init(struct armature* a, float head_len, float spine_len, float thorax_len, float shoulder_radius, float arm_up_len, float arm_lo_len, float spine_radius, float leg_up_len, float leg_lo_len, float foot_len);
 void armature_proj_from_keypoints(struct armature* a, vector<struct keypoint>& kps);
-void armature_print(struct armature* a, bool abs);
+void armature_print(struct armature* a, bool abs, int stage);
 
-struct armature armature_combine(struct armature* a, struct armature* b, float mutation_rate);
+extern int							w_idx;
+
+struct armature armature_combine(struct armature* a, struct armature* b, float mutation_rate, int stage);
 void armature_fit(struct armature* base, struct armature* onto_proj);
 void armature_translate_all_bones(struct armature* a, struct vector3f translation);
 
